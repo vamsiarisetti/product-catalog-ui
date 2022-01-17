@@ -1,3 +1,10 @@
+<p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="left">
+        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew()"></button>
+        <!-- <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button> -->
+    </ng-template>
+</p-toolbar>
+
 <p-table #datatable *ngIf="flights" [value]="flights" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,15,20]"
     [filterDelay]="0" [globalFilterFields]="['flightNumber','origin', 'destination', 'departDay', 'price']">
@@ -56,3 +63,89 @@
         </tr>
     </ng-template>
 </p-table>
+
+<p-dialog [(visible)]="flightDialog" [style]="{width: '450px'}" header="Flight Details" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="p-field">
+            <label class="p-mb-3">Origin</label>
+            <div class="p-formgrid p-grid">
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton id="origin1" name="origin" value="DXB" [(ngModel)]="flight.origin"></p-radioButton>
+                    <label for="origin1">DUBAI</label>
+                </div>
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton id="origin2" name="origin" value="HYD" [(ngModel)]="flight.origin"></p-radioButton>
+                    <label for="origin2">HYDERABAD</label>
+                </div>
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton id="origin3" name="origin" value="YYZ" [(ngModel)]="flight.origin"></p-radioButton>
+                    <label for="origin3">TORONTO</label>
+                </div>
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton id="origin4" name="origin" value="BOM" [(ngModel)]="flight.origin"></p-radioButton>
+                    <label for="origin4">MUMBAI</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-field">
+            <label class="p-mb-3">destination</label>
+            <div class="p-formgrid p-grid">
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton id="destination1" name="destination" value="DXB" [(ngModel)]="flight.destination"></p-radioButton>
+                    <label for="destination1">DUBAI</label>
+                </div>
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton id="destination2" name="destination" value="HYD" [(ngModel)]="flight.destination"></p-radioButton>
+                    <label for="destination2">HYDERABAD</label>
+                </div>
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton id="destination3" name="destination" value="YYZ" [(ngModel)]="flight.destination"></p-radioButton>
+                    <label for="destination3">TORONTO</label>
+                </div>
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton id="destination4" name="destination" value="BOM" [(ngModel)]="flight.destination"></p-radioButton>
+                    <label for="destination4">MUMBAI</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-formgrid p-grid">
+            <div class="p-field">
+                <label for="departDay">Depart Day</label>
+                <input type="text" pInputText id="departDay" [(ngModel)]="flight.departDay" required autofocus />
+                <small class="p-invalid" *ngIf="submitted && !flight.departDay">departDay is required.</small>
+            </div>
+            <div class="p-field p-col">
+                <label for="departTime">Depart Time</label>
+                <p-inputNumber id="departTime" [(ngModel)]="flight.departTime"></p-inputNumber>
+            </div>
+        </div>
+
+        <div class="p-formgrid p-grid">
+            <div class="p-field">
+                <label for="arriveDay">Arrive Day</label>
+                <input type="text" pInputText id="arriveDay" [(ngModel)]="flight.arriveDay" required autofocus />
+                <small class="p-invalid" *ngIf="submitted && !flight.arriveDay">arriveDay is required.</small>
+            </div>
+            <div class="p-field p-col">
+                <label for="arriveTime">Arrive Time</label>
+                <p-inputNumber id="arriveTime" [(ngModel)]="flight.arriveTime"></p-inputNumber>
+            </div>
+        </div>
+
+        <div class="p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="price">Price</label>
+                <p-inputNumber id="price" [(ngModel)]="flight.price" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
+            </div>
+        </div>
+    </ng-template>
+    
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
