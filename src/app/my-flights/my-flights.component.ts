@@ -4,8 +4,7 @@ import { Table } from 'primeng/table';
 import { Flight } from './../flight';
 import { FlightsService } from './../flight.service';
 
-import { ConfirmationService } from 'primeng/api';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService, SelectItem } from 'primeng/api';
 
 @Component({
   selector: 'app-my-flights',
@@ -21,6 +20,12 @@ export class MyFlightsComponent implements OnInit {
   flight!: Flight;
   submitted: boolean = false;
   flightDialog: boolean = false;
+
+  cities: any[] = [];
+  selectedCountry: string | undefined;
+  countries: any[] = [];
+  items: SelectItem[] = [];
+  item: string | undefined;
 
   constructor(
     private flightService: FlightsService,
@@ -41,6 +46,14 @@ export class MyFlightsComponent implements OnInit {
       { label: 'Friday', value: 'friday' },
       { label: 'Saturday', value: 'saturday' },
       { label: 'Sunday', value: 'sunday' },
+    ];
+
+    this.cities = [
+      { name: 'New York', code: 'NY' },
+      { name: 'Rome', code: 'RM' },
+      { name: 'London', code: 'LDN' },
+      { name: 'Istanbul', code: 'IST' },
+      { name: 'Paris', code: 'PRS' },
     ];
   }
 
@@ -72,8 +85,8 @@ export class MyFlightsComponent implements OnInit {
 
   saveProduct() {
     this.submitted = true;
-    let flightNumber = this.flight.flightNumber;
-    if (flightNumber) {
+    if (this.flight) {
+      var flightNumber = this.flight.flightNumber as string;
       if (this.flight.id) {
         this.flights[this.findIndexById(flightNumber)] = this.flight;
         this.messageService.add({
@@ -85,15 +98,7 @@ export class MyFlightsComponent implements OnInit {
       } else {
         this.flight.id = this.createId(this.flights);
         this.flight.flightNumber = this.createFlightNumber();
-        this.flight.origin = "NAX";
-        this.flight.destination = "AHR";
-        this.flight.departDay = "Wednesday";
-        this.flight.departTime = "09:00";
-        this.flight.arriveDay = "Thursday";
-        this.flight.arriveTime = "10:00";
-        this.flight.price = 100.00;
 
-        // this.flight.image = 'product-placeholder.svg';
         this.flights.push(this.flight);
         this.messageService.add({
           severity: 'success',
@@ -122,23 +127,26 @@ export class MyFlightsComponent implements OnInit {
 
   createId(flights: Flight[]): number {
     let max = 0;
-    flights.forEach(aircraft => {
+    flights.forEach((aircraft) => {
       let id = aircraft.id ? aircraft.id : 0;
-       if (id > max) {
-         max = id;
-       }
+      if (id > max) {
+        max = id;
+      }
     });
-    max = max+1;
+    max = max + 1;
     return max;
   }
 
-  createFlightNumber(): string
-  {
+  createFlightNumber(): string {
     let id = '';
-    var chars =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (var i = 0; i < 5; i++) {
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    var numbers = '0123456789';
+    for (var i = 0; i < 3; i++) {
       id += chars.charAt(Math.floor(Math.random() * chars.length));
+      id = id.toUpperCase();
+    }
+    for (var j = 0; j < 2; j++) {
+      id += numbers.charAt(Math.floor(Math.random() * numbers.length));
     }
     return id;
   }
