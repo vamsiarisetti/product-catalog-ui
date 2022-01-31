@@ -66,55 +66,33 @@
 
 <p-dialog [(visible)]="flightDialog" [style]="{width: '450px'}" header="Flight Details" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
+
         <div class="p-field">
-            <label class="p-mb-3">Origin</label>
-            <div class="p-formgrid p-grid">
-                <div class="p-field-radiobutton p-col-6">
-                    <p-radioButton id="origin1" name="origin" value="DXB" [(ngModel)]="flight.origin"></p-radioButton>
-                    <label for="origin1">DUBAI</label>
-                </div>
-                <div class="p-field-radiobutton p-col-6">
-                    <p-radioButton id="origin2" name="origin" value="HYD" [(ngModel)]="flight.origin"></p-radioButton>
-                    <label for="origin2">HYDERABAD</label>
-                </div>
-                <div class="p-field-radiobutton p-col-6">
-                    <p-radioButton id="origin3" name="origin" value="YYZ" [(ngModel)]="flight.origin"></p-radioButton>
-                    <label for="origin3">TORONTO</label>
-                </div>
-                <div class="p-field-radiobutton p-col-6">
-                    <p-radioButton id="origin4" name="origin" value="BOM" [(ngModel)]="flight.origin"></p-radioButton>
-                    <label for="origin4">MUMBAI</label>
-                </div>
-            </div>
+            <label for="cities">Origin</label>
+            <p-dropdown [(ngModel)]="flight.origin" inputId="origin" [options]="cities" placeholder="Select">
+                <ng-template let-option pTemplate="item">
+                    <span [class]="'airport-name city-' + option.code">{{option.name}}</span>
+                </ng-template>
+            </p-dropdown>
         </div>
 
         <div class="p-field">
-            <label class="p-mb-3">destination</label>
-            <div class="p-formgrid p-grid">
-                <div class="p-field-radiobutton p-col-6">
-                    <p-radioButton id="destination1" name="destination" value="DXB" [(ngModel)]="flight.destination"></p-radioButton>
-                    <label for="destination1">DUBAI</label>
-                </div>
-                <div class="p-field-radiobutton p-col-6">
-                    <p-radioButton id="destination2" name="destination" value="HYD" [(ngModel)]="flight.destination"></p-radioButton>
-                    <label for="destination2">HYDERABAD</label>
-                </div>
-                <div class="p-field-radiobutton p-col-6">
-                    <p-radioButton id="destination3" name="destination" value="YYZ" [(ngModel)]="flight.destination"></p-radioButton>
-                    <label for="destination3">TORONTO</label>
-                </div>
-                <div class="p-field-radiobutton p-col-6">
-                    <p-radioButton id="destination4" name="destination" value="BOM" [(ngModel)]="flight.destination"></p-radioButton>
-                    <label for="destination4">MUMBAI</label>
-                </div>
-            </div>
+            <label for="cities">destination</label>
+            <p-dropdown [(ngModel)]="flight.origin" inputId="destination" [options]="cities" placeholder="Select">
+                <ng-template let-option pTemplate="item">
+                    <span [class]="'airport-name city-dest-' + option.code">{{option.name}}</span>
+                </ng-template>
+            </p-dropdown>
         </div>
 
         <div class="p-formgrid p-grid">
             <div class="p-field">
-                <label for="departDay">Depart Day</label>
-                <input type="text" pInputText id="departDay" [(ngModel)]="flight.departDay" required autofocus />
-                <small class="p-invalid" *ngIf="submitted && !flight.departDay">departDay is required.</small>
+                <label for="cities">Depart Day</label>
+                <p-dropdown [(ngModel)]="flight.departDay" inputId="departDay" [options]="days" placeholder="Select">
+                    <ng-template let-option pTemplate="item">
+                        <span [class]="'airport-name departDay-' + option.value">{{option.label}}</span>
+                    </ng-template>
+                </p-dropdown>
             </div>
             <div class="p-field p-col">
                 <label for="departTime">Depart Time</label>
@@ -124,9 +102,12 @@
 
         <div class="p-formgrid p-grid">
             <div class="p-field">
-                <label for="arriveDay">Arrive Day</label>
-                <input type="text" pInputText id="arriveDay" [(ngModel)]="flight.arriveDay" required autofocus />
-                <small class="p-invalid" *ngIf="submitted && !flight.arriveDay">arriveDay is required.</small>
+                <label for="cities">Arrive Day</label>
+                <p-dropdown [(ngModel)]="flight.arriveDay" inputId="arriveDay" [options]="days" placeholder="Select">
+                    <ng-template let-option pTemplate="item">
+                        <span [class]="'airport-name arriveDay-' + option.value">{{option.label}}</span>
+                    </ng-template>
+                </p-dropdown>
             </div>
             <div class="p-field p-col">
                 <label for="arriveTime">Arrive Time</label>
